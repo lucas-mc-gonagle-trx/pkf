@@ -1,0 +1,17 @@
+{
+  "name": "AutoAssignEngineers",
+  "description": "Assign engineers with lowest workload to new tickets",
+  "main": "Main.xaml",
+  "dependencies": {
+    "UiPath.Core.Activities": "18.2.6745.15248",
+    "UiPath.Excel.Activities": "2.4.6884.25683"
+  },
+  "excludedData": [
+    "Private:*",
+    "*password*"
+  ],
+  "toolVersion": "18.2",
+  "projectVersion": "1.0.6913.16878",
+  "packOptions": {},
+  "runtimeOptions": {}
+}

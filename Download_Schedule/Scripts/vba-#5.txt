@@ -1,0 +1,58 @@
+Sub Main()
+
+    'Get row count & toggle Display Alerts
+    Application.DisplayAlerts = False
+    RowCount = Application.CountA(Range("A:A"))
+
+    'Set sheets
+    Set ws = ActiveSheet
+    ws.Range("G1").Value = "Lunch Start"
+    ws.Range("H1").Value = "Lunch End"
+    
+    'generate excel values as time
+    time_eight = (1 / 24) * 8
+    time_nine = (1 / 24) * 9
+    time_ten = (1 / 24) * 10
+    
+    'for each cell in column E
+    For i = 2 To RowCount + 1
+    
+        'get cell value
+        ws.Range("E" & i).Activate
+        cell_val = ActiveCell.Value
+        
+        'If Shift Start is between 8AM and 9AM - set lunch hours
+        If cell_val >= time_eight And cell_val < time_nine Then
+            ActiveCell.Offset(0, 2).Value = "11:45 AM"
+            ActiveCell.Offset(0, 3).Value = "1 PM"
+        End If
+        
+        'If Shift Start is between 9AM and 10AM - set lunch hours
+        If cell_val >= time_nine And cell_val < time_ten Then
+            ActiveCell.Offset(0, 2).Value = "12:45 PM"
+            ActiveCell.Offset(0, 3).Value = "2 PM"
+        End If
+    
+    Next i
+    
+    'change format to below
+    ws.Range("E2:H" & RowCount).NumberFormat = "0.0000"
+    
+    
+    
+    Dim dayEnd As String
+    dayEnd = "0.000"
+    
+    For i = 2 To RowCount
+    
+        ws.Range("F" & i).Activate
+        cell_val = CStr(ActiveCell.Value)
+        
+        
+        If cell_val = "0" Then
+            ActiveCell.Value = 1
+        End If
+        
+    Next i
+    
+End Sub

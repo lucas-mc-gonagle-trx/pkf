@@ -1,0 +1,30 @@
+Sub Main()
+
+    'Declare our variables as Ranges
+    Dim cell As Range
+    Dim rng As Range
+
+    'Get row count & toggle Display Alerts
+    Application.DisplayAlerts = False
+    RowCount = Application.CountA(Range("A:A"))
+
+
+    'Set sheets
+    Set ws = ActiveSheet
+    Set rng = ws.Range("E2:F" & RowCount)
+    rng.NumberFormat = "hh:mm:ss"
+    
+    
+    For Each cell In rng
+    
+        cell.Activate
+        cell_val = ActiveCell.Value
+        
+        If cell_val = "" Then
+            ActiveCell.EntireRow.Delete
+        End If
+        
+    Next cell
+    
+
+End Sub

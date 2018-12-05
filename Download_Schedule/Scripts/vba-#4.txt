@@ -1,0 +1,49 @@
+Sub Main()
+
+    'Declare our variables as Ranges
+    Dim cell As Range
+    Dim rng As Range
+    
+    'Array containing name of ticket engineers we CAN assign to
+    names_arr = Array("1st Line")
+
+    'Get row count & toggle Display Alerts
+    Application.DisplayAlerts = False
+    RowCount = Application.CountA(Range("A:A"))
+
+
+    'Set sheets
+    Set ws = ActiveSheet
+    Set rng1 = ws.Range("E2:F" & RowCount)
+    rng1.NumberFormat = "hh:mm:ss"
+    
+    'for each cell in range
+    For Each cell In rng1
+        'get active cell value
+        cell.Activate
+        cell_val = ActiveCell.Value
+        'if cell value is blank - delete row
+        If cell_val = "" Then
+            ActiveCell.EntireRow.Delete
+        End If
+        
+    Next cell
+    
+    'for each cell in range
+    For i = 2 To RowCount + 1
+        'get cell value
+        ws.Range("B" & i).Activate
+        cell_val = ActiveCell.Value
+        
+        'if cell value is found in names_arr
+        If IsNumeric(Application.Match(cell_val, names_arr, 0)) Or cell_val = "" Then
+            'do nothing
+        Else
+            'if not found - delete row
+            ActiveCell.EntireRow.Delete
+            i = i - 1
+        End If
+        
+    Next i
+
+End Sub

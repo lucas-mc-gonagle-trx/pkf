@@ -1,0 +1,43 @@
+Sub Main()
+
+    'Declare our variables as Ranges
+    Dim cell As Range
+    Dim rng As Range
+    
+    'Get row count & toggle Display Alerts
+    Application.DisplayAlerts = False
+    RowCount = Application.CountA(Range("A:A"))
+    
+    'Set sheets
+    Set ws = ActiveSheet
+    Set rng = ws.Range("E2:F" & RowCount)
+    
+    'For Each cell in range
+    For Each cell In rng
+    
+        With cell
+        'active cell and get value
+            cell.Activate
+            cell_val = ActiveCell.Value
+            
+            'if cell value contains 'AM'
+            Position = InStr(1, cell_val, "AM")
+            If Position > 0 Then
+                'ensure whitespace between numberic time and 'AM' - formatting check
+                cell_val = Replace(cell_val, "AM", " AM")
+                ActiveCell.Value = Trim(UCase(cell_val))
+            End If
+            
+            'if cell value contains 'PM'
+            Position = InStr(1, cell_val, "PM")
+            If Position > 0 Then
+                'ensure whitespace between numberic time and 'PM' - formatting check
+                cell_val = Replace(cell_val, "PM", " PM")
+                ActiveCell.Value = Trim(UCase(cell_val))
+            End If
+            
+        End With
+        
+    Next cell
+    
+End Sub

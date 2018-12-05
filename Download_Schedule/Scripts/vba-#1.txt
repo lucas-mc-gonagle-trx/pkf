@@ -1,0 +1,107 @@
+Sub Main()
+    
+    'Declare our variables as Ranges
+    Dim cell As Range
+    Dim rng As Range
+    
+    Application.DisplayAlerts = False
+    RowCount = Application.CountA(Range("A:A"))
+
+    'Set workbook Sheets
+    Set ws_schedule = Sheets("Schedule")
+    Set ws_totals = Sheets("Totals")
+    
+    'set Range
+    ws_schedule.Activate
+    Set rng = ws_schedule.Range("D4:D" & RowCount)
+    
+
+    'For each cell in range
+    For Each cell In rng
+    
+        With cell
+            'get cell value
+            cell_val = LCase(cell.Value)
+            
+            
+            'Check if cell value contains 'late'
+            Position = InStr(1, cell_val, "late")
+            'if contains 'late'
+            If Position > 0 Then
+                'change cell value to below time
+                cell.Value = "9:30 AM - 6 PM"
+            End If
+            
+            'Check if cell contains 'earl'(ie)
+            Position = InStr(1, cell_val, "earl")
+            'if contains 'earl'
+            If Position > 0 Then
+                'change cell value to below
+                cell.Value = "8 AM - 4:30 PM"
+            End If
+            
+                   
+        End With
+        
+    Next cell
+    
+    
+    
+    
+    'add new sheet to put parse times
+    Sheets.Add
+    Set ws = ActiveSheet
+    ws.Name = "parsed"
+    
+    'give parse sheet headers
+    ws.Range("A1").Value = "Name"
+    ws.Range("B1").Value = "Position"
+    ws.Range("C1").Value = "Hours"
+    ws.Range("D1").Value = "Shift"
+    ws.Range("E1").Value = "Shift Start"
+    ws.Range("F1").Value = "Shift End"
+    
+    'paste over names and positions
+    ws_schedule.Range("A4:D" & RowCount).Copy
+    ws.Range("A2").PasteSpecial Paste:=xlValues
+    
+    
+    'set Range
+    ws.Activate
+    Set rng = ws.Range("D1:D" & RowCount)
+
+    'For each cell in range
+    For Each cell In rng
+    
+        With cell
+        'activate cell
+        cell.Activate
+        'get cell value
+        cell_val = cell.Value
+        'check contains '-'
+        Position = InStr(1, cell_val, "-")
+            
+            'If true
+            If Position > 0 Then
+                
+                'split value by '-'
+                split_val = Split(cell_val, "-")
+                
+                'move on cell right and set value as first split value
+                ActiveCell.Offset(0, 1).Activate
+                ActiveCell.Value = Trim(UCase(split_val(0)))
+                
+                'move another cell right and set value as second split value
+                ActiveCell.Offset(0, 1).Activate
+                ActiveCell.Value = Trim(UCase(split_val(1)))
+                
+            End If
+           
+        End With
+        
+    Next cell
+    
+    ws_totals.Delete
+    ws_schedule.Delete
+
+End Sub

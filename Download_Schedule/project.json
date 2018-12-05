@@ -1,0 +1,17 @@
+{
+  "name": "Download_Schedule",
+  "description": "Simple Process Project",
+  "main": "Main.xaml",
+  "dependencies": {
+    "UiPath.Core.Activities": "18.2.6745.15248",
+    "UiPath.Excel.Activities": "2.4.6884.25683"
+  },
+  "excludedData": [
+    "Private:*",
+    "*password*"
+  ],
+  "toolVersion": "18.2",
+  "projectVersion": "1.0.6911.18714",
+  "packOptions": {},
+  "runtimeOptions": {}
+}
